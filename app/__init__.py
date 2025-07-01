@@ -10,7 +10,7 @@ def create_app():
         SECRET_KEY=os.environ.get('SECRET_KEY'),
         DATABASE_HOST=os.environ.get('FLASK_DATABASE_HOST'),
         DATABASE_PASSWORD=os.environ.get('FLASK_DATABASE_PASSWORD'),
-        DATABAS_USER=os.environ.get('FLASK_DATABASE_USER'),
+        DATABASE_USER=os.environ.get('FLASK_DATABASE_USER'),
         DATABASE=os.environ.get('FLASK_DATABASE'),
     )
 
