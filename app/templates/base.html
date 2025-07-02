@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<title>{% block title %}{% endblock %} - mailer</title>
+<title>{% block title %}{% endblock %} - Mailer</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,5 +13,11 @@
             <input type="text" name="search" placeholder="Quieres buscar algo?">
         </form>
     </div>
+    <header>
+        {% block header %}{% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+        {% endfor %}
     {% block content %}{% endblock %}
 </section>
