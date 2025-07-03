@@ -3,3 +3,5 @@ __pycache__/
 .env
 lista_directorios_y_archivos.txt
 raiz-raida.py
+*.pyc
+instance/
