@@ -1,6 +1,9 @@
 from flask import (
-    Blueprint, render_template, request, flash, url_for, redirect
+    Blueprint, render_template, request, flash, url_for, redirect, current_app
 )
+import ssl
+import sendgrid
+from sendgrid.helpers.mail import *
 
 from app.db import get_db
 
@@ -32,8 +35,9 @@ def create():
 
         
         if len(errors) == 0:
+            send(email, subject,content)
             db, c = get_db()
-            c.execute("INSERT INTO email (email, subject, content) VALUES (%s, %s, %s)", (email,subject,content))
+            c.execute("INSERT INTO email (email, subject, content) VALUES (%s, %s, %s)", (email, subject, content))
             db.commit()
 
             return redirect(url_for('mail.index'))
@@ -43,4 +47,11 @@ def create():
     return render_template('mails/create.html')
 
 def send(to, subject, content):
+    ssl._create_default_https_context = ssl._create_unverified_context
     sg = sendgrid.SendGridAPIClient(api_key=current_app.config['SENDGRID_KEY'])
+    from_email = Email(current_app.config['FROM_EMAIL'])
+    to_email = To(to)
+    content = Content('text/plain', content)
+    mail =  Mail(from_email, to_email, subject, content)
+    response = sg.client.mail.send.post(request_body=mail.get())
+    print(response)
