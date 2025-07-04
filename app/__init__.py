@@ -5,6 +5,7 @@ from flask import Flask
 def create_app():
     app = Flask(__name__)
 
+
     app.config.from_mapping(
         FROM_EMAIL=os.environ.get('FROM_EMAIL'),
         SENDGRID_KEY=os.environ.get('SENDGRID_API_KEY'),
@@ -16,8 +17,10 @@ def create_app():
     )
 
     from . import db
-    
     db.init_app(app)
+
+    with app.app_context():
+        db.init_db()
     
     from . import mail
 
